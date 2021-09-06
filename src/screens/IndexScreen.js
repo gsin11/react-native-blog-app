@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -10,7 +10,15 @@ import { Feather } from "@expo/vector-icons";
 import { Context } from "../context/BlogContext";
 
 export default function IndexScreen({ navigation }) {
-  const { state, removeBlogPost } = useContext(Context);
+  const { state, removeBlogPost, getBlogPosts } = useContext(Context);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      getBlogPosts();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <View>
